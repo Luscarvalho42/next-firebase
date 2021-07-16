@@ -8,12 +8,27 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null)
   const [laoding, setLoading] = useState(true)
 
-  const signin = () => {
+  const signinGithub = () => {
     try {
       setLoading(true)
       firebase
       .auth()
       .signInWithPopup(new firebase.auth.GithubAuthProvider())
+      .then((response) => {
+        setUser(response.user)
+        Router.push('/dashboard')
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const signinGoogle = () => {
+    try {
+      setLoading(true)
+      firebase
+      .auth()
+      .signInWithPopup(new firebase.auth.GoogleAuthProvider())
       .then((response) => {
         setUser(response.user)
         Router.push('/dashboard')
@@ -33,13 +48,15 @@ export const AuthProvider = ({ children }) => {
         .then(() => setUser(null))
     } finally {
       setLoading(false)
+      console.log("VOCÊ SAIU")
     }
   }
 
   return <AuthContext.Provider value={{
     user,
     laoding,
-    signin,
+    signinGithub,
+    signinGoogle,
     signout,
   }}>{children}</AuthContext.Provider>
 }

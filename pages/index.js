@@ -1,8 +1,11 @@
 import useAuth from '../hooks/useAuth'
 
 export default function Home() {
-  const {signin} = useAuth()
+  const {signinGithub, signinGoogle} = useAuth()
   return (
-    <button onClick={() => signin()}>Entrar com Github</button>
+    <>
+      <button onClick={() => signinGithub()}>Entrar com Github</button>
+      <button onClick={() => signinGoogle()}>Entrar com Google</button>
+    </>
   )
 }
